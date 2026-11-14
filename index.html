@@ -1,44 +1,228 @@
-<!doctype html>
-<html lang="de">
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#050505"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="./manifest.json"><link rel="apple-touch-icon" href="./icon-180.png"><title>Würfelreihen · Solo-Würfelspiel</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Spielebox – Qwixx</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#f0f0f5">
+<meta name="apple-mobile-web-app-title" content="Qwixx">
 <style>
-:root{color-scheme:dark;--bg:#050505;--red:#d33;--yellow:#e6c010;--green:#1a8f1a;--blue:#3a3ab8;--pastel-red:#ffd6d6;--pastel-yellow:#fff0a8;--pastel-green:#ceefce;--pastel-blue:#d4d4ff;--white:#fff;--tile:#333;--ui:#1688e8;--muted:#a8a8a8;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px)}*{box-sizing:border-box}html,body{height:100%;width:100%;margin:0;overflow:hidden;background:var(--bg);color:white;font-family:"Trebuchet MS",ui-rounded,system-ui,sans-serif}button{font:inherit;color:inherit;touch-action:manipulation}button:focus-visible{outline:3px solid white;outline-offset:2px}.app{height:100svh;min-height:100%;padding:calc(5px + var(--safe-top)) max(10px,env(safe-area-inset-right)) calc(5px + var(--safe-bottom)) max(10px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:clamp(5px,1.3vh,11px);max-width:1300px;margin:auto}.top{height:clamp(27px,7vh,46px);min-height:25px;display:flex;align-items:center;justify-content:space-between;padding:0 3px}.brand{font-weight:1000;font-size:clamp(17px,3.6vh,26px);letter-spacing:.025em;line-height:1}.brand span{color:#aaa;font-size:.55em;font-weight:700;letter-spacing:.14em;margin-left:8px;text-transform:uppercase}.hint{font-size:clamp(10px,1.7vh,13px);color:#bdbdbd;text-align:right}.board{display:grid;grid-template-rows:repeat(4,minmax(0,1fr));gap:clamp(4px,1.15vh,9px);flex:1;min-height:0}.row{--tone:var(--red);--pale:var(--pastel-red);display:grid;grid-template-columns:clamp(18px,3.2vw,31px) repeat(11,minmax(0,1fr)) clamp(27px,5vw,46px) clamp(33px,6vw,54px);gap:clamp(2px,.6vw,6px);align-items:stretch;background:var(--tone);border:1px solid #000;border-radius:5px;padding:clamp(3px,.65vw,6px);min-width:0;box-shadow:0 3px 0 #ffffff12,inset 0 1px #ffffff18}.row.yellow{--tone:var(--yellow);--pale:var(--pastel-yellow)}.row.green{--tone:var(--green);--pale:var(--pastel-green)}.row.blue{--tone:var(--blue);--pale:var(--pastel-blue)}.arrow{position:relative;display:grid;place-items:center;min-width:0}.arrow:before{content:"";width:0;height:0;border-top:clamp(10px,2.1vw,19px) solid transparent;border-bottom:clamp(10px,2.1vw,19px) solid transparent;border-left:clamp(12px,2.6vw,24px) solid var(--tone);filter:drop-shadow(1.4px 0 #000) drop-shadow(-1.4px 0 #000) drop-shadow(0 1.4px #000) drop-shadow(0 -1.4px #000)}.cell,.lock,.row-score{border:1.5px solid #111;border-radius:clamp(6px,1.1vw,11px);min-width:0;position:relative;display:grid;place-items:center}.cell{padding:0;background:var(--pale);color:var(--tone);font-size:clamp(16px,4.2vh,34px);font-weight:1000;line-height:1;box-shadow:inset 0 -3px #00000012;transition:filter .12s,transform .12s}.cell.legal{outline:3px solid white;outline-offset:1px;z-index:1;filter:brightness(1.08);cursor:pointer}.cell.legal:active{transform:scale(.94)}.cell.marked:after{content:"×";position:absolute;inset:-.09em;display:grid;place-items:center;font-family:Arial,sans-serif;font-size:1.58em;font-weight:1000;line-height:1;color:#101010;text-shadow:1px 1px #fff9}.cell.skipped,.cell.locked{filter:grayscale(1);opacity:.38}.cell:disabled{cursor:default}.lock{background:var(--pale);color:#151515;padding:4px}.lock svg{width:clamp(15px,3.3vh,25px);height:clamp(15px,3.3vh,25px);stroke:currentColor;stroke-width:2.5;fill:none}.lock.closed{background:var(--tone);color:#070707;box-shadow:inset 0 0 0 2px #111}.row-score{background:#171717;color:#fff;border-radius:50%;font-size:clamp(13px,3vh,23px);font-weight:1000;border-color:#111;box-shadow:inset 0 0 0 2px var(--tone)}.bottom{min-height:clamp(79px,24vh,130px);display:grid;grid-template-columns:auto minmax(0,1fr);align-items:stretch;gap:clamp(8px,2vw,18px)}.controls{display:flex;align-items:center;gap:clamp(5px,1.3vw,11px)}.icon-btn{border:2px solid #080808;width:clamp(39px,9vh,57px);height:clamp(39px,9vh,57px);border-radius:50%;background:var(--ui);display:grid;place-items:center;box-shadow:0 3px 0 #000, inset 0 1px #ffffff35;padding:8px}.icon-btn:hover{filter:brightness(1.13);transform:translateY(-1px)}.icon-btn:active{transform:translateY(2px);box-shadow:none}.icon-btn svg{width:100%;height:100%;stroke:white;stroke-width:2.3;fill:none;stroke-linecap:round;stroke-linejoin:round}.icon-btn.roll{background:#177c25}.icon-btn[aria-pressed="false"]{background:#555}.roll-glyph{font-size:clamp(16px,4vh,26px);line-height:1}.dashboard{display:grid;grid-template-columns:minmax(95px,1.1fr) minmax(90px,.95fr) minmax(66px,.72fr) minmax(72px,.78fr) minmax(72px,.78fr);gap:clamp(4px,1vw,9px);min-width:0}.tile{position:relative;min-width:0;background:var(--tile);border:1px solid #555;border-radius:9px;display:flex;align-items:center;justify-content:center;gap:clamp(4px,1vw,10px);padding:clamp(4px,.8vw,9px);box-shadow:inset 0 1px #ffffff0d}.misses{display:flex;gap:clamp(3px,.6vw,6px);align-items:center}.miss{width:clamp(13px,3.2vh,22px);height:clamp(13px,3.2vh,22px);border:2px solid #bbb;border-radius:4px;background:#222}.miss.active{background:#d33;border-color:#f88;box-shadow:inset 0 0 0 3px #a00}.bonus{padding-top:13px;flex-direction:column;text-align:center}.bonus-label{position:absolute;top:3px;left:0;right:0;color:#c9c9c9;font-size:clamp(7px,1.2vh,10px);font-weight:900;letter-spacing:.09em}.tile-label{font-size:clamp(9px,1.55vh,13px);font-weight:800;line-height:1.05;text-align:center;color:#ddd}.tile-value{font-size:clamp(20px,5vh,36px);font-weight:1000;line-height:1;color:white}.dice{display:flex;align-items:center;justify-content:center;gap:clamp(3px,.7vw,7px);height:100%;width:100%;flex-wrap:nowrap}.die{--die:#fff;position:relative;width:clamp(17px,4.5vh,39px);aspect-ratio:1;border-radius:clamp(5px,1vh,8px);background:var(--die);box-shadow:inset 0 -3px #0002,0 2px 3px #0008;flex:none}.die.red{--die:var(--red)}.die.yellow{--die:var(--yellow)}.die.green{--die:var(--green)}.die.blue{--die:var(--blue)}.die.hidden-die{visibility:hidden}.pip{position:absolute;width:19%;height:19%;border-radius:50%;background:#171717;transform:translate(-50%,-50%)}.die:not(.plain) .pip{background:white}.die.yellow:not(.plain) .pip{background:#171717}.die.plain .pip{background:#222}.vertical{display:none;position:fixed;inset:0;z-index:20;background:#050505;align-items:center;justify-content:center;text-align:center;padding:30px;font-weight:900;font-size:20px;letter-spacing:.05em}.vertical span{display:block;font-size:38px;margin-bottom:12px}@media(orientation:portrait){.vertical{display:flex}.app{visibility:hidden}}
-@media(max-height:360px) and (orientation:landscape){.app{gap:4px;padding-top:3px;padding-bottom:3px}.top{height:23px}.board{gap:3px}.row{padding:2px}.bottom{min-height:70px}.icon-btn{width:36px;height:36px}.brand{font-size:16px}.cell{font-size:15px}}
-.overlay{position:fixed;inset:0;z-index:30;background:#000d;display:grid;place-items:center;padding:16px}.dialog{width:min(560px,95vw);max-height:88svh;overflow:auto;background:#202020;border:1px solid #777;border-radius:15px;padding:20px;box-shadow:0 14px 50px #000}.dialog h2{margin:0 0 10px;font-size:1.4rem}.dialog p,.dialog li{color:#e1e1e1;line-height:1.45}.dialog button{border:0;background:#1688e8;color:#fff;border-radius:9px;font-weight:900;padding:10px 17px}.hidden{display:none!important}.toast{position:fixed;left:50%;bottom:calc(12px + var(--safe-bottom));transform:translateX(-50%);z-index:40;background:#f0f0f0;color:#111;padding:9px 15px;border-radius:99px;font-weight:900;font-size:13px;white-space:nowrap;box-shadow:0 4px 20px #000b}
-@media(max-width:600px) and (orientation:landscape){.dashboard{grid-template-columns:minmax(70px,1.05fr) minmax(65px,.9fr) minmax(53px,.68fr) minmax(60px,.75fr) minmax(60px,.75fr)}.controls{gap:4px}.icon-btn{width:clamp(34px,8vh,47px);height:clamp(34px,8vh,47px)}.bottom{gap:6px}.hint{max-width:43%}}
-</style></head>
-<body><div class="vertical"><div><span>↻</span>Bitte Gerät drehen<br>Spiele im Querformat</div></div><main class="app" aria-label="Würfelreihen Spiel"><header class="top"><div class="brand">Würfelreihen <span>Solo-Würfelspiel</span></div><div class="hint" id="hint">Würfle, um zu beginnen.</div></header><section class="board" id="rows" aria-label="Spielplan"></section><section class="bottom" aria-label="Spielsteuerung und Spielstand"><div class="controls"><button class="icon-btn" id="settings" aria-label="Einstellungen und Regeln" title="Einstellungen"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 2.94-.08-.03a1.7 1.7 0 0 0-1.8.23l-.07.05h-3.4l-.03-.08a1.7 1.7 0 0 0-1.4-1.03l-.09-.01-2.94 1.7-.06-.07a1.7 1.7 0 0 0-1.88-.34l-.08.03-1.7-2.94.06-.06a1.7 1.7 0 0 0 .23-1.8l-.04-.08v-3.4l.08-.03a1.7 1.7 0 0 0 1.03-1.4l.01-.09-1.7-2.94.07-.06a1.7 1.7 0 0 0 .34-1.88l-.03-.08 2.94-1.7.06.06a1.7 1.7 0 0 0 1.8.23l.08-.04h3.4l.03.08a1.7 1.7 0 0 0 1.4 1.03l.09.01 2.94-1.7.06.07a1.7 1.7 0 0 0 1.88.34l.08-.03 1.7 2.94-.06.06a1.7 1.7 0 0 0-.23 1.8l.04.08v3.4l-.08.03a1.7 1.7 0 0 0-1.03 1.4l-.01.09 1.7 2.94z"></path></svg></button><button class="icon-btn" id="new" aria-label="Neues Spiel" title="Neues Spiel"><svg viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"></path><path d="M5.6 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.4-3"></path></svg></button><button class="icon-btn" id="sound" aria-label="Ton ein oder aus" aria-pressed="true" title="Ton an/aus"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4zM15 9a5 5 0 0 1 0 6M18 6a9 9 0 0 1 0 12"></path></svg></button><button class="icon-btn roll" id="roll" aria-label="Würfeln" title="Würfeln"><span class="roll-glyph">⚄</span></button></div><div class="dashboard"><div class="tile"><div class="misses" id="misses" aria-label="Fehlwürfe von vier"></div></div><div class="tile dice" id="dice" aria-label="Würfel"></div><div class="tile bonus"><span class="bonus-label">BONUS</span><span class="tile-label">SPALTEN</span><span class="tile-value" id="columns">0</span></div><div class="tile bonus"><span class="bonus-label">BONUS</span><span class="tile-label">4 ZAHLEN</span><span class="tile-value" id="four">0</span></div><div class="tile"><div><div class="tile-label">FEHLWÜRFE</div><div class="tile-value" id="minus">0</div></div><div><div class="tile-label">GESAMT</div><div class="tile-value" id="score">0</div></div></div></div></section></main>
-<div class="overlay hidden" id="overlay" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><section class="dialog"><h2 id="dialogTitle">Einstellungen</h2><div id="dialogText"></div><button id="close">Schließen</button></section></div><div class="toast hidden" id="toast" role="status"></div>
+:root{--bg:#f0f0f5;--panel:#d9d9de;--text:#1c1c1e;--chip:#fff;--red:#d33636;--yellow:#e8c40e;--green:#1b8f1b;--blue:#3a38b8;--cell:rgba(255,255,255,.7);--grey:#8e8e93}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111114;--panel:#26262c;--text:#f2f2f5;--chip:#34343b;--cell:rgba(255,255,255,.64);--grey:#4a4a52}}
+:root[data-theme="dark"]{--bg:#111114;--panel:#26262c;--text:#f2f2f5;--chip:#34343b;--cell:rgba(255,255,255,.64);--grey:#4a4a52}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:"Avenir Next",ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit;color:inherit}
+#app{position:fixed;top:0;left:0;width:100vw;height:100vh;width:100dvw;height:100dvh;container-type:size;display:grid;grid-template-rows:1fr auto auto;gap:2cqh;
+ padding:max(1.5cqh,env(safe-area-inset-top)) max(2cqw,env(safe-area-inset-right)) max(1.5cqh,env(safe-area-inset-bottom)) max(2cqw,env(safe-area-inset-left))}
+/* Hochformat: Inhalt um 90° drehen, damit immer quer */
+@media (orientation:portrait) and (max-width:900px){
+ #app{width:100vh;height:100vw;width:100dvh;height:100dvw;transform-origin:top left;transform:translateX(100vw) rotate(90deg);transform:translateX(100dvw) rotate(90deg);
+  padding:max(1.5cqh,env(safe-area-inset-right)) max(2cqw,env(safe-area-inset-bottom)) max(1.5cqh,env(safe-area-inset-left)) max(2cqw,env(safe-area-inset-top))}
+}
+#board{display:grid;grid-template-rows:repeat(4,1fr);gap:1cqh;padding-left:3cqw;min-height:0}
+.row{display:grid;grid-template-columns:repeat(10,1fr) 2.3fr;gap:.7cqw;padding:.9cqh .8cqw;position:relative;min-height:0;border-radius:1.8cqh}
+.end{display:grid;grid-template-columns:1fr 1.15fr;gap:.7cqw;padding:.2cqh .5cqw;border-radius:1.4cqh;border:.35cqh solid rgba(0,0,0,.4);min-height:0}
+.row::before{content:"";position:absolute;left:-2.5cqw;top:50%;transform:translateY(-50%);border-left:1.8cqw solid var(--text);border-top:2.2cqh solid transparent;border-bottom:2.2cqh solid transparent}
+.row.red{background:var(--red)}.row.yellow{background:var(--yellow)}.row.green{background:var(--green)}.row.blue{background:var(--blue)}
+.row.red .n{color:var(--red)}.row.yellow .n{color:#a98d00}.row.green .n{color:var(--green)}.row.blue .n{color:var(--blue)}
+.n{border:0;border-radius:1.4cqh;background:var(--cell);font-weight:800;font-size:min(6cqh,3.2cqw);display:grid;place-items:center;padding:0;position:relative;min-width:0;min-height:0}
+.n.skip{opacity:.4}
+.n.skip::after{content:"";position:absolute;left:-.35cqw;right:-.35cqw;top:50%;height:.7cqh;margin-top:-.35cqh;background:currentColor}
+.n.bad{animation:bad .5s;background:#ff9b9b!important}
+@keyframes bad{25%{transform:translateX(-6%)}75%{transform:translateX(6%)}}
+.n.done{background:rgba(0,0,0,.58);color:#fff!important}
+.n.done::after{content:"✕";position:absolute;font-size:1.4em}
+.n.done span{opacity:.2}
+.n.ok{background:#fff;animation:pulse 1s infinite;box-shadow:0 0 0 .5cqh #fff,0 0 0 .9cqh rgba(0,0,0,.35)}
+.n.ok:active{transform:scale(.9)}
+@keyframes pulse{50%{transform:scale(1.07)}}
+@media (prefers-reduced-motion:reduce){.n.ok{animation:none}}
+.lock{align-self:center;justify-self:center;width:8.4cqh;height:8.4cqh;flex:none;border-radius:50%;background:rgba(255,255,255,.92);color:var(--text);display:flex;align-items:center;justify-content:center}
+.row.red .lock{color:var(--red)}.row.yellow .lock{color:#a98d00}.row.green .lock{color:var(--green)}.row.blue .lock{color:var(--blue)}
+.lock svg{width:5.4cqh;height:5.4cqh;display:block;flex:none;overflow:visible}
+.lock svg circle{fill:#fff}
+.row .lock.on{background:rgba(0,0,0,.7);color:#fff}
+.lock.on svg circle{fill:rgba(0,0,0,.7)}
+#bar{display:flex;flex-direction:column;gap:1cqh}
+.ptsrow{display:flex;gap:.5cqw;align-items:stretch;height:7.5cqh}
+.ptl{align-self:center;font-size:1.9cqh;font-weight:700;width:6cqw;line-height:1.1;opacity:.7}
+.pc{flex:1;background:var(--chip);border-radius:1cqh;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;position:relative}
+.pc b{font-size:2.2cqh}.pc small{font-size:2.6cqh;font-weight:800}
+.dots{display:none}.dots i{width:1cqh;height:1cqh;border-radius:50%}
+.frow{display:flex;gap:1.4cqw;align-items:center;height:8cqh}
+.calc{flex:1;display:flex;align-items:center;gap:1cqw;height:100%}
+.fb{flex:1;height:100%;background:var(--chip);border:.7cqh solid var(--grey);border-radius:1.4cqh;display:grid;place-items:center;font-weight:800;font-size:4.2cqh}
+.fb.tot{flex:1.6;border-color:var(--text)}
+.op{font-size:4cqh;font-weight:800;opacity:.6}
+.pencs{display:flex;gap:.6cqw;margin-left:1cqw}.pencs i{width:6.2cqh;height:6.2cqh;border-radius:50%;border:.5cqh solid var(--grey);background:var(--chip)}.pencs i.x{background:var(--text)}
+.s{flex:1;background:var(--grey);border-radius:1.4cqh;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05}
+.s b{font-size:4.4cqh}.s small{font-size:2.2cqh;opacity:.9}
+.s.r{background:var(--red)}.s.y{background:var(--yellow);color:#222}.s.g{background:var(--green)}.s.b2{background:var(--blue)}
+.s.w2{flex:1.5}
+.pen{display:flex;gap:.4cqw;margin-top:.6cqh}.pen i{width:2.3cqh;height:2.3cqh;border-radius:.6cqh;background:rgba(255,255,255,.3)}.pen i.x{background:#fff}
+#new,#set{border:0;border-radius:1.4cqh;background:var(--chip);font-weight:700;font-size:2.8cqh;padding:0 1.6cqw}
+#set{order:-1}
+.sbtn{height:8cqh;font-size:3.2cqh;padding:0 2.2cqw;min-width:0}
+.srow{display:flex;gap:1.6cqw;justify-content:center;margin-bottom:1.6cqh}
+.slab{font-size:2.8cqh;opacity:.65;margin:1.4cqh 0 .8cqh}
+.tray{background:var(--panel);border-radius:2cqh;padding:1.6cqh 2.6cqw;display:flex;align-items:center;gap:3cqw;height:20cqh}
+.dice{display:flex;gap:2.6cqw;padding:0 1cqw}
+.die{height:14cqh;aspect-ratio:1;border-radius:18%;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:2.3cqh}
+.die.w{background-color:#fbfbf8}.die.r{background-color:var(--red)}.die.y{background-color:var(--yellow)}.die.g{background-color:var(--green)}.die.b{background-color:var(--blue)}
+.die3{height:14cqh;aspect-ratio:1;perspective:70cqh;flex:none}
+.cube{position:relative;width:100%;height:100%;transform-style:preserve-3d}
+.f{position:absolute;inset:0;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:2.3cqh;border-radius:8%;box-shadow:inset 0 0 0 .3cqh rgba(0,0,0,.14);backface-visibility:hidden}
+.die3.w .f{background:#fbfbf8}.die3.r .f{background:var(--red)}.die3.y .f{background:var(--yellow)}.die3.g .f{background:var(--green)}.die3.b .f{background:var(--blue)}
+.f i{width:100%;height:100%;border-radius:50%;margin:auto;background:#fff}
+.die3.w .f i{background:#111}
+.f1{transform:translateZ(7cqh)}.f6{transform:rotateY(180deg) translateZ(7cqh)}.f2{transform:rotateY(90deg) translateZ(7cqh)}.f5{transform:rotateY(-90deg) translateZ(7cqh)}.f3{transform:rotateX(90deg) translateZ(7cqh)}.f4{transform:rotateX(-90deg) translateZ(7cqh)}
+.core{position:absolute;inset:2%;border-radius:8%}
+.die3.w .core{background:#fbfbf8}.die3.r .core{background:var(--red)}.die3.y .core{background:var(--yellow)}.die3.g .core{background:var(--green)}.die3.b .core{background:var(--blue)}
+.die3.gone{display:none}
+.die.land{animation:none}
+@keyframes land{0%{transform:scale(.8)}60%{transform:scale(1.07)}100%{transform:none}}
+.die i{width:100%;height:100%;border-radius:50%;margin:auto;background:#fff}
+.die.w i{background:#111}
+.side{flex:1;display:flex;align-items:center;justify-content:center;gap:1.6cqw;min-width:0}
+#msg{display:none;flex:1;font-weight:600;font-size:min(3.2cqh,1.9cqw);line-height:1.25}
+.btns{display:flex;flex-direction:column;gap:1cqh}
+.btn{border:0;border-radius:999px;padding:0 2.2cqw;height:10cqh;min-width:16cqw;font-weight:700;font-size:3.6cqh;background:#0a84ff;color:#fff;white-space:nowrap}
+.btn.sec{background:var(--chip);color:var(--text)}
+.btn[disabled]{opacity:.4}
+.over{position:absolute;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:20}
+.over.on{display:grid}
+.card{background:var(--bg);border-radius:3cqh;padding:3cqh 5cqw;text-align:center}
+.card h2{margin:0;font-size:5cqh}.card .big{font-size:14cqh;font-weight:800;line-height:1.1}
+.card .note{opacity:.65;margin-bottom:2cqh;font-size:3cqh}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="board"></div>
+  <div id="bar"><div id="pts"></div><div class="frow"><button id="new" aria-label="Neues Spiel" title="Neues Spiel" style="height:100%;aspect-ratio:1;padding:0;display:grid;place-items:center"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.5-5.8"/><path d="M20 4v5h-5"/></svg></button><button id="set" aria-label="Einstellungen" title="Einstellungen" style="height:100%;aspect-ratio:1;padding:0;display:grid;place-items:center"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button><div id="stats" class="calc"></div></div></div>
+  <div class="tray">
+    <div class="dice" id="dice"></div>
+    <div class="side"><div id="msg"></div>
+      <div class="btns"><button class="btn" id="roll">Würfeln</button></div></div>
+  </div>
+  <div class="over" id="settings"><div class="card"><h2>Einstellungen</h2><div class="slab">Darstellung</div><div class="srow"><button class="btn sec sbtn th" data-t="light">Hell</button><button class="btn sec sbtn th" data-t="dark">Dunkel</button><button class="btn sec sbtn th" data-t="auto">Automatisch</button></div><div class="srow"><button class="btn sec sbtn" id="resetBest">Rekord zurücksetzen</button></div><button class="btn sbtn" id="setClose">Fertig</button></div></div>
+  <div class="over" id="ask"><div class="card"><h2>Neu starten?</h2><div class="note" style="margin-top:1cqh">Der aktuelle Spielstand geht verloren.</div><div style="display:flex;gap:2cqw;justify-content:center"><button class="btn sec" id="askNo" style="height:8cqh;font-size:3.4cqh">Abbrechen</button><button class="btn" id="askYes" style="height:8cqh;font-size:3.4cqh">Neu starten</button></div></div></div>
+  <div class="over" id="over"><div class="card"><h2>Spiel vorbei</h2><div class="big" id="final">0</div><div class="note" id="finalNote"></div><button class="btn" id="again" style="height:8cqh;font-size:3.6cqh">Nochmal spielen</button></div></div>
+</div>
 <script>
-(()=>{'use strict';
-const ROWS=[{name:'Rot',key:'red',color:'#d33',nums:[2,3,4,5,6,7,8,9,10,11,12]},{name:'Gelb',key:'yellow',color:'#e6c010',nums:[2,3,4,5,6,7,8,9,10,11,12]},{name:'Grün',key:'green',color:'#1a8f1a',nums:[12,11,10,9,8,7,6,5,4,3,2]},{name:'Blau',key:'blue',color:'#3a3ab8',nums:[12,11,10,9,8,7,6,5,4,3,2]}];
-const fresh=()=>({marks:ROWS.map(()=>Array(11).fill(false)),locked:ROWS.map(()=>false),last:ROWS.map(()=>-1),misses:0,phase:'roll',white:[],colors:[],crossed:0,ended:false});
-const count=(s,i)=>s.marks[i].filter(Boolean).length+(s.locked[i]?1:0);
-const points=s=>-5*s.misses+s.marks.reduce((sum,r,i)=>{const n=r.filter(Boolean).length+(s.locked[i]?1:0);return sum+n*(n+1)/2},0);
-const valid=(s,i,value)=>{if(s.ended||s.locked[i])return false;const n=ROWS[i].nums.indexOf(value);return n>=0&&n>s.last[i]&&(n!==10||count(s,i)>=5)};
-const possible=s=>{const out=[];if(s.phase==='one'){const v=s.white[0]+s.white[1];ROWS.forEach((r,i)=>{if(valid(s,i,v))out.push([i,v])})}else if(s.phase==='two'){s.white.forEach(w=>ROWS.forEach((r,i)=>{if(!s.locked[i]){const v=w+s.colors[i];if(valid(s,i,v))out.push([i,v])}}))}return out};
-window.WuerfelreihenLogic={ROWS,fresh,count,points,valid,possible};
-const $=s=>document.querySelector(s),root=$('#rows');let state=fresh(),soundOn=true,audio;
-function pipPositions(n){return {1:[[50,50]],2:[[28,28],[72,72]],3:[[28,28],[50,50],[72,72]],4:[[28,28],[72,28],[28,72],[72,72]],5:[[28,28],[72,28],[50,50],[28,72],[72,72]],6:[[28,25],[72,25],[28,50],[72,50],[28,75],[72,75]]}[n]}
-function pipHTML(n){return pipPositions(n).map(([x,y])=>`<i class="pip" style="left:${x}%;top:${y}%"></i>`).join('')}
-function dieMarkup(color,n,hide=false,blank=false){return `<div class="die ${color||'plain'} ${hide?'hidden-die':''}" aria-label="${color||'Weiß'}: ${blank?'bereit':n}">${blank?'':pipHTML(n)}</div>`}
-function renderRows(){root.innerHTML='';ROWS.forEach((r,i)=>{const el=document.createElement('div');el.className='row '+r.key;el.dataset.row=i;el.innerHTML='<div class="arrow" aria-hidden="true"></div>'+r.nums.map((n,j)=>`<button type="button" class="cell" data-row="${i}" data-idx="${j}" aria-label="${r.name} ${n}">${n}</button>`).join('')+`<div class="lock ${state.locked[i]?'closed':''}" aria-label="${state.locked[i]?'Reihe geschlossen':'Reihe schließen'}"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path><circle cx="12" cy="15" r="1" fill="currentColor"></circle><path d="M12 16v2"></path></svg></div><div class="row-score" aria-label="Punkte ${r.name}">${count(state,i)*(count(state,i)+1)/2}</div>`;root.appendChild(el)});root.querySelectorAll('.cell').forEach(b=>b.addEventListener('click',()=>choose(+b.dataset.row,ROWS[+b.dataset.row].nums[+b.dataset.idx])))}
-function legal(i,n){return possible(state).some(([ri,v])=>ri===i&&v===n)}
-function draw(){if(!root.children.length)renderRows();const choices=possible(state);root.querySelectorAll('.cell').forEach(b=>{const i=+b.dataset.row,j=+b.dataset.idx;b.classList.toggle('marked',state.marks[i][j]);b.classList.toggle('legal',choices.some(([ri,v])=>ri===i&&ROWS[i].nums[j]===v));b.classList.toggle('skipped',state.last[i]>=0&&j<state.last[i]&&!state.marks[i][j]);b.classList.toggle('locked',state.locked[i]);b.disabled=!choices.some(([ri,v])=>ri===i&&ROWS[i].nums[j]===v)});root.querySelectorAll('.row').forEach((el,i)=>{el.querySelector('.lock').classList.toggle('closed',state.locked[i]);el.querySelector('.row-score').textContent=count(state,i)*(count(state,i)+1)/2});$('#misses').innerHTML=Array.from({length:4},(_,i)=>`<span class="miss ${i<state.misses?'active':''}" aria-hidden="true"></span>`).join('');$('#minus').textContent='−'+state.misses*5;$('#score').textContent=points();$('#dice').innerHTML=dieMarkup('',state.white[0],false,!state.white.length)+dieMarkup('',state.white[1],false,!state.white.length)+ROWS.map((r,i)=>dieMarkup(r.key,state.colors[i],state.locked[i],!state.colors.length)).join('');const rollButton=$('#roll');rollButton.disabled=state.ended;rollButton.style.opacity=state.ended?'.42':'1';rollButton.setAttribute('aria-label',state.phase==='roll'?'Würfeln':state.phase==='one'?'Schritt 1 überspringen':'Zug beenden');rollButton.title=state.phase==='roll'?'Würfeln':state.phase==='one'?'Schritt 1 überspringen':'Zug beenden';rollButton.querySelector('.roll-glyph').textContent=state.phase==='roll'?'⚄':state.phase==='one'?'↷':'✓';$('#hint').textContent=state.ended?`Spiel beendet · Bestwert ${Math.max(best(),points())}`:state.phase==='roll'?'Würfle, um zu beginnen.':state.phase==='one'?`Schritt 1 · Weiße Summe ${state.white[0]+state.white[1]} · optional, tippe ↷ zum Auslassen`:`Schritt 2 · Weiß + passende Farbe · optional, tippe ✓ zum Zugende`;}
-function best(){try{return +(localStorage.getItem('wuerfelreihen-best')||0)}catch{return 0}}
-function saveBest(){if(points()>best())try{localStorage.setItem('wuerfelreihen-best',String(points()))}catch{}}
-function clickSound(){if(!soundOn)return;try{audio??=new(window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.type='sine';o.frequency.value=640;g.gain.setValueAtTime(.045,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.08);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+.08)}catch{}}
-function toast(t){const el=$('#toast');el.textContent=t;el.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.add('hidden'),1700)}
-function ended(){if(state.misses>=4||state.locked.filter(Boolean).length>=2){state.ended=true;state.phase='done';saveBest();toast(`Spielende · ${points()} Punkte`);return true}return false}
-function finishTurn(){if(state.crossed===0){state.misses++;toast('Fehlwurf · −5 Punkte')}if(!ended())state.phase='roll'}
-function choose(i,n){if(!legal(i,n))return;clickSound();const j=ROWS[i].nums.indexOf(n);state.marks[i][j]=true;state.last[i]=j;state.crossed++;if(j===10){state.locked[i]=true;toast(`${ROWS[i].name} geschlossen · Schloss zählt extra`)}if(state.phase==='one'){state.phase='two';ended()}else finishTurn();draw()}
-function roll(){if(state.phase!=='roll'||state.ended)return;clickSound();state.white=[1+(Math.random()*6|0),1+(Math.random()*6|0)];state.colors=ROWS.map(()=>1+(Math.random()*6|0));state.crossed=0;state.phase='one';draw()}
-function start(force=false){if(!force&&!state.ended&&state.phase!=='roll'&&!confirm('Aktuelles Spiel beenden und neu starten?'))return;state=fresh();draw();toast('Neues Spiel gestartet')}
-$('#roll').addEventListener('click',()=>{if(state.phase==='roll')roll();else if(state.phase==='one'){state.phase='two';draw()}else if(state.phase==='two'){finishTurn();draw()}});$('#new').addEventListener('click',()=>start());$('#sound').addEventListener('click',e=>{soundOn=!soundOn;e.currentTarget.setAttribute('aria-pressed',String(soundOn));toast(soundOn?'Ton eingeschaltet':'Ton ausgeschaltet')});
-const rules=`<p><b>Würfeln:</b> Zwei weiße und vier farbige Würfel. Rot/Gelb laufen von 2 bis 12, Grün/Blau von 12 bis 2.</p><ol><li><b>Schritt 1:</b> Weiße Summe in einer beliebigen offenen Reihe ankreuzen oder auslassen.</li><li><b>Schritt 2:</b> Summe aus einem weißen und dem passenden Farbwürfel ankreuzen oder den Zug beenden.</li><li>Du darfst nur rechts deines letzten Kreuzes ankreuzen. Übersprungene Zahlen sind nicht mehr verfügbar.</li><li>Das letzte Feld erfordert mindestens fünf vorherige Kreuze. Das Schließen zählt als Extrakreuz; der Farbwürfel verschwindet.</li><li>Ohne Kreuz im gesamten Zug gibt es einen Fehlwurf (−5 Punkte). Spielende nach vier Fehlwürfen oder zwei geschlossenen Reihen.</li><li>Reihenpunkte folgen Dreieckszahlen (1, 3, 6, 10 …); ein Schloss zählt als zusätzliches Kreuz. Bestwert wird lokal auf diesem Gerät gespeichert.</li></ol><p>Die Bonusfelder „Spalten“ und „4 Zahlen“ sind im Prototyp einfache Zähler und bleiben derzeit bei 0.</p>`;
-$('#settings').addEventListener('click',()=>{$('#dialogTitle').textContent='Einstellungen · Regeln';$('#dialogText').innerHTML=rules;$('#overlay').classList.remove('hidden')});$('#close').addEventListener('click',()=>$('#overlay').classList.add('hidden'));$('#overlay').addEventListener('click',e=>{if(e.target.id==='overlay')e.currentTarget.classList.add('hidden')});document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#overlay').classList.add('hidden')});if('serviceWorker'in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));draw();
-})();
-</script></body></html>
+const COLORS=["red","yellow","green","blue"];
+const NUMS=[[2,3,4,5,6,7,8,9,10,11,12],[2,3,4,5,6,7,8,9,10,11,12],[12,11,10,9,8,7,6,5,4,3,2],[12,11,10,9,8,7,6,5,4,3,2]];
+let S,bestTxt="";
+const tri=n=>n*(n+1)/2;
+function fresh(){S={marks:[[],[],[],[]],locked:[false,false,false,false],pen:0,d:{w1:0,w2:0,c:[0,0,0,0]},phase:"idle",made:false,turn:[],rolled:false,over:false}}
+const last=r=>S.marks[r].length?Math.max(...S.marks[r]):-1;
+const can=(r,p)=>p>=0&&!S.locked[r]&&p>last(r)&&(p<10||S.marks[r].length>=5);
+function options(){
+  const o=new Set();
+  if(S.phase==="white"){const s=S.d.w1+S.d.w2;for(let r=0;r<4;r++){const p=NUMS[r].indexOf(s);if(can(r,p))o.add(r+":"+p)}}
+  if(S.phase==="color"){for(let r=0;r<4;r++){if(S.locked[r])continue;[S.d.w1,S.d.w2].forEach(w=>{const p=NUMS[r].indexOf(w+S.d.c[r]);if(can(r,p))o.add(r+":"+p)})}}
+  return o;
+}
+function pips(v){const m={1:[4],2:[2,6],3:[2,4,6],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]}[v]||[];let h="";for(let i=0;i<9;i++)h+=m.includes(i)?"<i></i>":"<b></b>";return h}
+const cnt=r=>S.marks[r].length+(S.locked[r]?1:0);
+const score=r=>tri(cnt(r));
+const total=()=>[0,1,2,3].reduce((a,r)=>a+score(r),0)-5*S.pen;
+function ori(v){return {1:[0,0],6:[0,180],2:[0,-90],5:[0,90],3:[-90,0],4:[90,0]}[v]||[0,0]}
+function cube(v){const o=ori(v);let h='<div class="cube" style="transform:rotateX('+o[0]+'deg) rotateY('+o[1]+'deg) rotateZ(0deg)">';for(let k=1;k<=6;k++)h+='<div class="f f'+k+'">'+pips(k)+'</div>';h+=['','rotateY(90deg) ','rotateX(90deg) '].map(a=>[-4,0,4].map(o=>'<div class="core" style="transform:'+a+'translateZ('+o+'cqh)"></div>').join('')).join('');return h+'</div>'}
+function lockSvg(on){return '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"><path d="'+(on?'M8 11V8a4 4 0 0 1 8 0v3':'M8 11V8a4 4 0 0 1 7.6-1.7')+'"/><rect x="4.5" y="11" width="15" height="10.5" rx="3" fill="currentColor" stroke="none"/><circle cx="12" cy="16" r="1.7" stroke="none"/></svg>'}
+function render(){
+  const opt=options();
+  document.getElementById("board").innerHTML=COLORS.map((c,r)=>{
+    let h='<div class="row '+c+'">';
+    NUMS[r].forEach((n,p)=>{
+      const done=S.marks[r].includes(p),ok=false,skip=!done&&(p<last(r)||S.locked[r]);
+      h+=(p===10?'<div class="end">':'')+'<button class="n'+(done?" done":"")+(ok?" ok":"")+(skip?" skip":"")+'" data-r="'+r+'" data-p="'+p+'"'+(S.phase==="rolling"||S.over?" disabled":"")+'><span>'+n+'</span></button>';
+    });
+    return h+'<div class="lock'+(S.locked[r]?" on":"")+'">'+lockSvg(S.locked[r])+'</div></div></div>'}).join("");
+  const cls=["r","y","g","b2"];
+  const cc=["var(--red)","var(--yellow)","var(--green)","var(--blue)"];
+  document.getElementById("pts").innerHTML='<div class="ptsrow"><span class="ptl">✕ = Punkte</span>'+[1,2,3,4,5,6,7,8,9,10,11,12].map(n=>'<div class="pc"><b>'+n+'×</b><small>'+tri(n)+'</small><span class="dots">'+[0,1,2,3].filter(r=>cnt(r)===n).map(r=>'<i style="background:'+cc[r]+'"></i>').join("")+'</span></div>').join("")+'</div>';
+  document.getElementById("stats").innerHTML=[0,1,2,3].map(r=>(r?'<span class="op">+</span>':'')+'<div class="fb" style="border-color:'+cc[r]+'">'+score(r)+'</div>').join("")+'<span class="op">−</span><div class="fb">'+5*S.pen+'</div><span class="op">=</span><div class="fb tot">'+total()+'</div><div class="pencs">'+[0,1,2,3].map(i=>'<i data-i="'+i+'" class="'+(i<S.pen?"x":"")+'"></i>').join("")+'</div>';
+  const d=S.d,ds=[["w",d.w1],["w",d.w2],...COLORS.map((c,r)=>[c==="blue"?"b":c[0],d.c[r]])];
+  document.getElementById("dice").innerHTML=ds.map((x,i)=>'<div class="die3 '+x[0]+(i>1&&S.locked[i-2]?" gone":"")+'">'+cube(x[1])+'</div>').join("");
+  const msg=document.getElementById("msg");
+  const rb=document.getElementById("roll");rb.disabled=S.phase==="rolling"||S.over;rb.textContent="Würfeln";
+  
+  if(S.phase==="idle")msg.textContent=S.rolled?"Kreuze an, was du möchtest. "+bestTxt:"Tippe auf Würfeln, um zu starten. "+bestTxt;
+  if(S.phase==="rolling")msg.textContent="…";
+  if(S.phase==="white")msg.textContent="Weiße Würfel: wähle ein Feld oder tippe „Weiter“.";
+  if(S.phase==="color")msg.textContent="Weiß + Farbe: wähle ein Feld oder beende den Zug.";
+  
+}
+function rollDice(){
+  if(S.phase!=="idle"||S.over)return;
+  const r6=()=>1+Math.floor(Math.random()*6);
+  const nd={w1:r6(),w2:r6(),c:[r6(),r6(),r6(),r6()]},vals=[nd.w1,nd.w2,...nd.c];
+  S.phase="rolling";render();
+  const cubes=[...document.querySelectorAll(".cube")];
+  void document.body.offsetWidth;
+  const k=()=>360*(1+Math.floor(Math.random()*2))*(Math.random()<.5?-1:1);
+  cubes.forEach((c,i)=>{const o=ori(vals[i]);c.style.transition="transform 2s cubic-bezier(.2,.6,.15,1)";c.style.transform="rotateX("+(o[0]+k())+"deg) rotateY("+(o[1]+k())+"deg) rotateZ("+k()+"deg)"});
+  setTimeout(()=>{if(S.phase!=="rolling")return;S.d=nd;S.phase="idle";S.rolled=true;render()},2050);
+}
+function rollDiceOld(){
+  if(S.phase!=="idle"||S.over)return;
+  const r6=()=>1+Math.floor(Math.random()*6);
+  let n=0;S.phase="rolling";
+  const t=setInterval(()=>{
+    S.d={w1:r6(),w2:r6(),c:[r6(),r6(),r6(),r6()]};render();
+    
+    document.querySelectorAll(".die").forEach((e,i)=>{e.style.transform="rotate("+((n+1)*720/14*(i%2?-1:1))+"deg)"});
+    if(++n>=14){clearInterval(t);S.phase="white";S.made=false;S.turn=[];render();document.querySelectorAll(".die").forEach(e=>e.classList.add("land"))}
+  },50);
+}
+function undo(r,p){if(S.over||S.phase==="rolling"||p!==last(r))return;S.marks[r]=S.marks[r].filter(x=>x!==p);if(p===10)S.locked[r]=false;const i=S.turn.findIndex(t=>t.r===r&&t.p===p);if(i>=0){const t=S.turn.splice(i,1)[0];S.made=S.turn.length>0;if(t.ph==="white"&&S.phase==="color")S.phase="white"}render()}
+function checkEnd(){if(S.locked.filter(Boolean).length>=2||S.pen>=4){finish();return}render()}
+function mark(r,p){
+  S.marks[r].push(p);S.turn.push({r,p,ph:S.phase});if(p===10)S.locked[r]=true;S.made=true;
+  checkEnd();
+}
+function endTurn(){
+  if(!S.made)S.pen++;
+  S.phase="idle";
+  if(S.locked.filter(Boolean).length>=2||S.pen>=4){finish();return}
+  render();
+}
+function finish(){
+  S.over=true;render();
+  const t=total();let best=0;
+  try{best=+localStorage.getItem("qwixx-best")||0;if(t>best)localStorage.setItem("qwixx-best",t)}catch(e){}
+  document.getElementById("final").textContent=t;
+  document.getElementById("finalNote").textContent=t>best?"Neuer Rekord!":"Dein Rekord: "+best;
+  document.getElementById("over").classList.add("on");
+}
+function newGame(){
+  fresh();document.getElementById("over").classList.remove("on");
+  try{const b=+localStorage.getItem("qwixx-best")||0;bestTxt=b?"Rekord: "+b:""}catch(e){bestTxt=""}
+  render();
+}
+document.getElementById("board").addEventListener("click",e=>{const b=e.target.closest(".n");if(!b||b.disabled)return;const r=+b.dataset.r,p=+b.dataset.p;if(b.classList.contains("done")){undo(r,p);return}if(!S.rolled){document.getElementById("msg").textContent="Würfle zuerst.";return}if(can(r,p))mark(r,p);else{b.classList.remove("bad");void b.offsetWidth;b.classList.add("bad");document.getElementById("msg").textContent="Dieses Feld ist jetzt nicht möglich."}});
+document.getElementById("roll").onclick=()=>{if(!S.over)rollDice()};
+
+document.getElementById("new").onclick=()=>document.getElementById("ask").classList.add("on");
+document.getElementById("askNo").onclick=()=>document.getElementById("ask").classList.remove("on");
+document.getElementById("askYes").onclick=()=>{document.getElementById("ask").classList.remove("on");newGame()};
+document.getElementById("stats").addEventListener("click",e=>{const i=e.target.closest(".pencs i");if(!i||S.over)return;const k=+i.dataset.i;S.pen=k<S.pen?k:k+1;checkEnd()});
+document.getElementById("again").onclick=newGame;
+let theme="light";try{theme=localStorage.getItem("qwixx-theme")||"light"}catch(e){}
+function setTheme(t){theme=t;if(t==="auto")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t);document.querySelectorAll(".th").forEach(b=>b.classList.toggle("sec",b.dataset.t!==t));try{localStorage.setItem("qwixx-theme",t)}catch(e){}}
+document.querySelectorAll(".th").forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
+document.getElementById("set").onclick=()=>document.getElementById("settings").classList.add("on");
+document.getElementById("setClose").onclick=()=>document.getElementById("settings").classList.remove("on");
+document.getElementById("resetBest").onclick=function(){try{localStorage.removeItem("qwixx-best")}catch(e){}bestTxt="";this.textContent="Rekord gelöscht";render()};
+setTheme(theme);
+newGame();
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body>
+</html>
