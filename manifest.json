@@ -1,0 +1,15 @@
+{
+  "name": "Würfelreihen — Solo-Würfelspiel",
+  "short_name": "Würfelreihen",
+  "description": "Ein taktisches Solo-Würfelspiel mit vier Farbreihen.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "icons": [
+    {"src":"./icon-180.png","sizes":"180x180","type":"image/png","purpose":"any maskable"},
+    {"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}
